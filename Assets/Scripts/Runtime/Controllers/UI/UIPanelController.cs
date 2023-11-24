@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using Enums;
 using Runtime.Enums;
 using Runtime.Signals;
 using Sirenix.OdinInspector;
@@ -35,7 +36,7 @@ namespace Runtime.Controllers.UI
         {
             foreach (var layer in layers)
             {
-                if(layer.childCount <= 0) return;
+                if (layer.childCount <= 0) return;
 #if UNITY_EDITOR
                 DestroyImmediate(layer.GetChild(0).gameObject);
 #else
@@ -50,25 +51,26 @@ namespace Runtime.Controllers.UI
             OnClosePanel(value);
             Instantiate(Resources.Load<GameObject>($"Screens/{panelType}Panel"), layers[value]);
         }
-        
+
         [Button("Close Panel")]
         private void OnClosePanel(int value)
         {
             if (layers[value].childCount <= 0) return;
+
 #if UNITY_EDITOR
-                DestroyImmediate(layers[value].GetChild(0).gameObject);
+            DestroyImmediate(layers[value].GetChild(0).gameObject);
 #else
                 Destroy(layers[value].GetChild(0).gameObject);
 #endif
         }
-        
+
         private void UnSubscribeEvents()
         {
             CoreUISignals.Instance.onClosePanel -= OnClosePanel;
             CoreUISignals.Instance.onOpenPanel -= OnOpenPanel;
             CoreUISignals.Instance.onCloseAllPanels -= OnCloseAllPanels;
         }
-        
+
         private void OnDisable()
         {
             UnSubscribeEvents();

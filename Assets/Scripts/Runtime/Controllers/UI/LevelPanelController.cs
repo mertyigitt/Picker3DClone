@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using DG.Tweening;
 using Runtime.Signals;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
-using Sirenix.OdinInspector;
 
 namespace Runtime.Controllers.UI
 {
@@ -16,7 +16,7 @@ namespace Runtime.Controllers.UI
 
         [SerializeField] private List<Image> stageImages = new List<Image>();
         [SerializeField] private List<TextMeshProUGUI> levelTexts = new List<TextMeshProUGUI>();
-        
+
         #endregion
 
         #endregion
@@ -35,7 +35,7 @@ namespace Runtime.Controllers.UI
         [Button("SetStageColor")]
         private void OnSetStageColor(byte stageValue)
         {
-            stageImages[stageValue].DOColor(new Color(0.996f, 0.419f, 0.078f), 0.5f);
+            stageImages[stageValue].DOColor(new Color(0.9960785f, 0.4196079f, 0.07843138f), 0.5f);
         }
 
         private void OnSetLevelValue(byte levelValue)
@@ -45,7 +45,7 @@ namespace Runtime.Controllers.UI
             additionalValue++;
             levelTexts[1].text = additionalValue.ToString();
         }
-        
+
         private void UnSubscribeEvents()
         {
             UISignals.Instance.onSetLevelValue -= OnSetLevelValue;

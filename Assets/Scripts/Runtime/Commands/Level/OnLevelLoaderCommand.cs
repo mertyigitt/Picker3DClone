@@ -1,18 +1,29 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace Runtime.Commands.Level
 {
-      class OnLevelLoaderCommand
+    public class OnLevelLoaderCommand
     {
         private Transform _levelHolder;
-        public OnLevelLoaderCommand(Transform levelHolder)
+
+        internal OnLevelLoaderCommand(Transform levelHolder)
         {
             _levelHolder = levelHolder;
         }
 
-        public void Execute(byte levelIndex)
+        internal void Execute(byte levelIndex)
         {
-            Object.Instantiate(Resources.Load<GameObject>($"Prefabs/LevelPrefabs/level{levelIndex}"), _levelHolder, true);
+            Object.Instantiate(Resources.Load<GameObject>($"Prefabs/LevelPrefabs/level {levelIndex}"), _levelHolder,
+                true);
+
+            // var resourceRequest = Resources.LoadAsync<GameObject>($"Prefabs/LevelPrefabs/level {levelIndex}");
+            //
+            // resourceRequest.completed += operation =>
+            // {
+            //     var newLevel = Object.Instantiate(resourceRequest.asset as GameObject,
+            //         Vector3.zero, Quaternion.identity);
+            //     if (newLevel != null) newLevel.transform.SetParent(_levelHolder.transform);
+            // };
         }
     }
 }

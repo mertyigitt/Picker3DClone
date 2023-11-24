@@ -1,6 +1,6 @@
-﻿using Runtime.Enums;
-using Runtime.Extentions;
-using UnityEngine;
+﻿using Enums;
+using Runtime.Enums;
+using Runtime.Extensions;
 using UnityEngine.Events;
 
 namespace Runtime.Signals

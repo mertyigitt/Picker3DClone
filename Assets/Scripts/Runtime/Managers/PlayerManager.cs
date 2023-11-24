@@ -1,4 +1,3 @@
-﻿using System;
 using Runtime.Commands.Player;
 using Runtime.Controllers.Player;
 using Runtime.Data.UnityObjects;
@@ -32,59 +31,74 @@ namespace Runtime.Managers
         #region Private Variables
 
         private PlayerData _data;
-        
+
         #endregion
 
         #endregion
+
         private void Awake()
         {
             _data = GetPlayerData();
-            SendDataControllers();
+            SendDataToControllers();
             Init();
         }
+
         private PlayerData GetPlayerData()
         {
             return Resources.Load<CD_Player>("Data/CD_Player").Data;
         }
-        private void SendDataControllers()
+
+        private void SendDataToControllers()
         {
             movementController.SetData(_data.MovementData);
             meshController.SetData(_data.MeshData);
         }
+
         private void Init()
         {
             ForceCommand = new ForceBallsToPoolCommand(this, _data.ForceData);
         }
+
         private void OnEnable()
         {
             SubscribeEvents();
         }
+
         private void SubscribeEvents()
         {
             InputSignals.Instance.onInputTaken += () => movementController.IsReadyToMove(true);
             InputSignals.Instance.onInputReleased += () => movementController.IsReadyToMove(false);
             InputSignals.Instance.onInputDragged += OnInputDragged;
-            UISignals.Instance.onPlay += () => movementController.IsReadyToMove(true);
+            UISignals.Instance.onPlay += () => movementController.IsReadyToPlay(true);
             CoreGameSignals.Instance.onLevelSuccessful += () => movementController.IsReadyToPlay(false);
             CoreGameSignals.Instance.onLevelFailed += () => movementController.IsReadyToPlay(false);
             CoreGameSignals.Instance.onStageAreaEntered += () => movementController.IsReadyToPlay(false);
             CoreGameSignals.Instance.onStageAreaSuccessful += OnStageAreaSuccessful;
-            CoreGameSignals.Instance.onFinishAreaEntered += OnFinishedAreaEntered;
+            CoreGameSignals.Instance.onFinishAreaEntered += OnFinishAreaEntered;
             CoreGameSignals.Instance.onReset += OnReset;
         }
+
         private void OnInputDragged(HorizontalInputParams inputParams)
         {
             movementController.UpdateInputParams(inputParams);
         }
+
         private void OnStageAreaSuccessful(byte value)
         {
-            StageValue = (byte)++value;
+            StageValue = ++value;
+            movementController.IsReadyToPlay(true);
+            meshController.ScaleUpPlayer();
+            meshController.PlayConfetiParticle();
+            meshController.ShowUpText();
         }
-        private void OnFinishedAreaEntered()
+
+        private void OnFinishAreaEntered()
         {
             CoreGameSignals.Instance.onLevelSuccessful?.Invoke();
-            //Mini Game Yazilmali
+            //Mini Game Yazılmalı
         }
+
+
         private void OnReset()
         {
             StageValue = 0;
@@ -92,19 +106,21 @@ namespace Runtime.Managers
             physicsController.OnReset();
             meshController.OnReset();
         }
+
         private void UnSubscribeEvents()
         {
-            InputSignals.Instance.onInputTaken -= ()=> movementController.IsReadyToMove(true);
+            InputSignals.Instance.onInputTaken -= () => movementController.IsReadyToMove(true);
             InputSignals.Instance.onInputReleased -= () => movementController.IsReadyToMove(false);
             InputSignals.Instance.onInputDragged -= OnInputDragged;
-            UISignals.Instance.onPlay -= ()=> movementController.IsReadyToMove(true);
+            UISignals.Instance.onPlay -= () => movementController.IsReadyToPlay(true);
             CoreGameSignals.Instance.onLevelSuccessful -= () => movementController.IsReadyToPlay(false);
             CoreGameSignals.Instance.onLevelFailed -= () => movementController.IsReadyToPlay(false);
-            CoreGameSignals.Instance.onStageAreaEntered -= ()=> movementController.IsReadyToPlay(false);
+            CoreGameSignals.Instance.onStageAreaEntered -= () => movementController.IsReadyToPlay(false);
             CoreGameSignals.Instance.onStageAreaSuccessful -= OnStageAreaSuccessful;
-            CoreGameSignals.Instance.onFinishAreaEntered -= OnFinishedAreaEntered;
+            CoreGameSignals.Instance.onFinishAreaEntered -= OnFinishAreaEntered;
             CoreGameSignals.Instance.onReset -= OnReset;
         }
+
         private void OnDisable()
         {
             UnSubscribeEvents();

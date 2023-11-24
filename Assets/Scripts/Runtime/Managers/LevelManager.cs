@@ -1,4 +1,4 @@
-﻿using Runtime.Commands.Level;
+using Runtime.Commands.Level;
 using Runtime.Data.UnityObjects;
 using Runtime.Data.ValueObjects;
 using Runtime.Enums;

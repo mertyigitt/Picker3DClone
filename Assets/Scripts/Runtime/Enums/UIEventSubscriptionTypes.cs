@@ -1,9 +1,9 @@
-﻿namespace Runtime.Enums
+namespace Runtime.Enums
 {
     public enum UIEventSubscriptionTypes
     {
         OnPlay,
-        OnNextlevel,
+        OnNextLevel,
         OnRestartLevel,
     }
 }

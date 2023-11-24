@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Unity.Mathematics;
 
 namespace Runtime.Data.ValueObjects
@@ -8,26 +8,24 @@ namespace Runtime.Data.ValueObjects
     {
         public PlayerMovementData MovementData;
         public PlayerMeshData MeshData;
-        public playerForceData ForceData;
-        
-        
+        public PlayerForceData ForceData;
     }
-    
+
     [Serializable]
     public struct PlayerMovementData
     {
         public float ForwardSpeed;
         public float SidewaySpeed;
     }
-    
+
     [Serializable]
     public struct PlayerMeshData
     {
         public float ScaleCounter;
     }
-    
+
     [Serializable]
-    public struct playerForceData
+    public struct PlayerForceData
     {
         public float3 ForceParameters;
     }

@@ -1,5 +1,4 @@
-﻿using System;
-using Cinemachine;
+﻿using Cinemachine;
 using Runtime.Signals;
 using Unity.Mathematics;
 using UnityEngine;
@@ -13,7 +12,7 @@ namespace Runtime.Managers
         #region Serialized Variables
 
         [SerializeField] private CinemachineVirtualCamera virtualCamera;
-        
+
         #endregion
 
         #region Private Variables
@@ -21,7 +20,7 @@ namespace Runtime.Managers
         private float3 _firstPosition;
 
         #endregion
-        
+
         #endregion
 
         private void Start()
@@ -44,20 +43,19 @@ namespace Runtime.Managers
             CameraSignals.Instance.onSetCameraTarget += OnSetCameraTarget;
             CoreGameSignals.Instance.onReset += OnReset;
         }
-        
+
         private void OnSetCameraTarget()
         {
             var player = FindObjectOfType<PlayerManager>().transform;
             virtualCamera.Follow = player;
             //virtualCamera.LookAt = player;
         }
-        
+
         private void OnReset()
         {
             transform.position = _firstPosition;
         }
 
-        
         private void UnSubscribeEvents()
         {
             CameraSignals.Instance.onSetCameraTarget -= OnSetCameraTarget;

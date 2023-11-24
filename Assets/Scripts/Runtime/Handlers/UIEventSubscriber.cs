@@ -1,4 +1,3 @@
-﻿using System;
 using Runtime.Enums;
 using Runtime.Managers;
 using Sirenix.OdinInspector;
@@ -9,7 +8,7 @@ namespace Runtime.Handlers
 {
     public class UIEventSubscriber : MonoBehaviour
     {
-        #region Self Veriables
+        #region Self Variables
 
         #region Serialized Variables
 
@@ -18,7 +17,7 @@ namespace Runtime.Handlers
 
         #endregion
 
-        #region PrivateVariables
+        #region Private Variables
 
         [ShowInInspector] private UIManager _manager;
 
@@ -28,10 +27,10 @@ namespace Runtime.Handlers
 
         private void Awake()
         {
-            GetReferences();
+            FindReferences();
         }
 
-        private void GetReferences()
+        private void FindReferences()
         {
             _manager = FindObjectOfType<UIManager>();
         }
@@ -46,36 +45,48 @@ namespace Runtime.Handlers
             switch (type)
             {
                 case UIEventSubscriptionTypes.OnPlay:
+                {
                     button.onClick.AddListener(_manager.Play);
                     break;
-                case UIEventSubscriptionTypes.OnNextlevel:
+                }
+                case UIEventSubscriptionTypes.OnNextLevel:
+                {
                     button.onClick.AddListener(_manager.NextLevel);
                     break;
+                }
                 case UIEventSubscriptionTypes.OnRestartLevel:
+                {
                     button.onClick.AddListener(_manager.RestartLevel);
                     break;
+                }
             }
         }
 
-        private void UnSubscribeEvents()
+        private void UnsubscribeEvents()
         {
             switch (type)
             {
                 case UIEventSubscriptionTypes.OnPlay:
+                {
                     button.onClick.RemoveListener(_manager.Play);
                     break;
-                case UIEventSubscriptionTypes.OnNextlevel:
+                }
+                case UIEventSubscriptionTypes.OnNextLevel:
+                {
                     button.onClick.RemoveListener(_manager.NextLevel);
                     break;
+                }
                 case UIEventSubscriptionTypes.OnRestartLevel:
+                {
                     button.onClick.RemoveListener(_manager.RestartLevel);
                     break;
+                }
             }
         }
 
         private void OnDisable()
         {
-            UnSubscribeEvents();
+            UnsubscribeEvents();
         }
     }
 }
